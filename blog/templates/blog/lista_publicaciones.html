@@ -1,0 +1,34 @@
+<h1>Lista de Publicaciones</h1>
+<form method="get">
+    <input type="text" name="q" placeholder="Buscar...">
+    <input type="date" name="fecha_publicacion">
+    <input type="text" name="categoria" placeholder="Categoría">
+    <button type="submit">Filtrar</button>
+</form>
+<ul>
+    {% for publicacion in publicaciones %}
+        <li>
+            <a href="{% url 'detalle_publicacion' publicacion.pk %}">{{ publicacion.titulo }}</a>
+            <p>{{ publicacion.fecha_publicacion }}</p>
+        </li>
+    {% endfor %}
+</ul>
+<div>
+    <span class="step-links">
+        {% if publicaciones.has_previous %}
+            <a href="?page=1">&laquo; primera</a>
+            <a href="?page={{ publicaciones.previous_page_number }}">anterior</a>
+        {% endif %}
+
+        <span class="current">
+            Página {{ publicaciones.number }} de {{ publicaciones.paginator.num_pages }}.
+        </span>
+
+        {% if publicaciones.has_next %}
+            <a href="?page={{ publicaciones.next_page_number }}">siguiente</a>
+            <a href="?page={{ publicaciones.paginator.num_pages }}">última &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+<a href="{% url 'agregar_publicacion' %}">Agregar nueva publicación</a>
+<a href="/">Volver a Inicio</a>
